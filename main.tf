@@ -33,6 +33,13 @@ module "ec2-instance-windows" {
   subnet_id              = var.subnet_id[count.index]
   private_ip             = var.assigned_ip_address[count.index]
   iam_instance_profile   = lookup(var.config_variables, "iam_profile")
+  root_block_device      = [
+    {
+      encrypted = true
+      volume_size = var.volume_size
+      volume_type = var.volume_type
+    }
+  ]
   vpc_security_group_ids = [lookup(var.config_variables, "security_grp_id")] # use this line to configure a single security group
   # vpc_security_group_ids =[var.security_grp_id_2,lookup(var.config_variables, "security_grp_id")] # use this line if you want to assign 2 security groups
   # vpc_security_group_ids =[var.security_grp_id_2,var.security_grp_id_3,lookup(var.config_variables, "security_grp_id")] # use this line if you want to assign multiple security groups
@@ -47,6 +54,7 @@ module "ec2-instance-windows" {
     {
       "Name"       = var.instance_name[count.index]
       "AssignedIP" = var.assigned_ip_address[count.index]
+      "PatchGroup" = var.patch_group[count.index]
     },
     local.tags
   )
