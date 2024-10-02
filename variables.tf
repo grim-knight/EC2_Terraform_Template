@@ -12,7 +12,16 @@ variable "subnet_id" {
   type    = list(any)
   default = [] # Add the list of subnets ids inside the default that must be assigned to the EC2 instances
 }
-
+variable "patch_group"{
+  type = list(any)
+  default = []  # Add the list of patch group tags necessary for patching through SSM automation
+}
+variable "volume_size"{ 
+  default = "50" 
+}
+variable "volume_type" {
+  default = "gp3"
+}
 variable "config_variables" {
   type = map(any)
   default = {
